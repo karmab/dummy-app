@@ -1,0 +1,2 @@
+recursive-include dummy/static *
+recursive-include dummy/templates *
