@@ -1,13 +1,15 @@
 import functools
 from dummy.bottle import Bottle, request, static_file, jinja2_view, response
+import json
 import os
+from urllib.request import urlopen, Request
 
 
 class Kdummy():
 
     def __init__(self):
         self.port = os.environ.get('DUMMY_PORT', 7000)
-        self.url = os.environ.get('DUMMY_URL', '127.0.0.1:7000')
+        self.url = os.environ.get('DUMMY_URL')
         app = Bottle()
         basedir = os.path.dirname(Bottle.run.__code__.co_filename)
         view = functools.partial(jinja2_view, template_lookup=[f"{basedir}/templates"])
@@ -31,12 +33,17 @@ class Kdummy():
         @app.route('/')
         @view('index.html', method='GET')
         def index():
-            return {'url': self.url}
+            return {'url': self.url or 'Self'}
 
         @app.route("/echo", method='POST')
         def process_message():
             data = request.json
-            return data
+            if self.url is None:
+                return data
+            data = json.dumps(data).encode('utf-8')
+            headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+            echo_request = Request(f'http://{self.url}/echo', headers=headers, method='POST', data=data)
+            return json.loads(urlopen(echo_request).read())
 
         self.app = app
 
