@@ -33,7 +33,7 @@ class Kdummy():
         def index():
             return {'url': self.url}
 
-        @app.route("/message", method='POST')
+        @app.route("/echo", method='POST')
         def process_message():
             data = request.json
             return data

@@ -5,7 +5,7 @@ This repository contains a sample app for communicating between two endpoints
 ## as a container
 
 ```
-podman run -p 7000:7000 -e DUMMY_URL=http://10.19.32.57:7000/message  --rm quay.io/karmab/dummy-app:latest
+podman run -p 7000:7000 -e DUMMY_URL=10.19.32.57:7000  --rm quay.io/karmab/dummy-app:latest
 ```
 
 ## on kubernetes
@@ -14,14 +14,8 @@ podman run -p 7000:7000 -e DUMMY_URL=http://10.19.32.57:7000/message  --rm quay.
 kubectl create -f deployment.yaml
 ```
 
-## POSTING
+## Posting a message
 
 ```
-curl --json '{"tool": "curloid"}' http://127.0.0.1:7000/message
-```
-
-or
-
-```
-curl -H "Content-Type: application/json" -X POST --data '{"tool":"curloid"}' http://127.0.0.1:7000/message
+curl -H "Content-Type: application/json" -X POST --data '{"tool":"curloid"}' http://127.0.0.1:7000/echo
 ```
