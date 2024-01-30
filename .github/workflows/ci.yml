@@ -1,0 +1,22 @@
+name: CI
+on: [push, pull_request]
+
+env:
+ QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+ QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+jobs:
+  run-workflow:
+    name: Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner == 'karmab'
+        name: Build And Push Container
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+          podman build -t quay.io/karmab/dummy-app:latest .
+          podman login -u $QUAY_USERNAME -p $QUAY_PASSWORD quay.io
+          podman push quay.io/karmab/dummy-app:latest

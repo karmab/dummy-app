@@ -3,6 +3,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Super dummy app</title>
+<style>
+body {
+  background-image: url('/static/images/background.png');
+}
+</style>
 </head>
 <body>
 
@@ -10,7 +15,7 @@ Welcome to this super app<p>
 
 <form id="myForm">
  <label for="textInput">Enter Text:</label>
- <input type="text" id="textInput" name="textInput" placeholder="Type something...">
+ <input type="text" id="textInput" name="textInput" placeholder="Send message...">
  <button type="button" onclick="sendMessage()">Send</button>
 </form>
 
@@ -20,7 +25,7 @@ Welcome to this super app<p>
 function sendMessage() {
   var userInput = document.getElementById("textInput").value;
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "{{ url }}", true);
+  xhr.open("POST", "http://{{ url }}/message", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -28,7 +33,7 @@ function sendMessage() {
     }
   };
 
-  var data = JSON.stringify({ userInput: userInput });
+  var data = JSON.stringify({ message: userInput });
   xhr.send(data);
 }
 </script>

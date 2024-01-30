@@ -23,7 +23,7 @@ spec:
           name: http
         env:
         - name: DUMMY_URL
-          value: "http://dummy-app-backend.karmab.sysdeseng.com/message"
+          value: "dummy-app-backend.karmab.sysdeseng.com"
 ---
 apiVersion: v1
 kind: Service

@@ -7,7 +7,7 @@ class Kdummy():
 
     def __init__(self):
         self.port = os.environ.get('DUMMY_PORT', 7000)
-        self.url = os.environ.get('DUMMY_URL', 'http://127.0.0.1:7000/message')
+        self.url = os.environ.get('DUMMY_URL', '127.0.0.1:7000')
         app = Bottle()
         basedir = os.path.dirname(Bottle.run.__code__.co_filename)
         view = functools.partial(jinja2_view, template_lookup=[f"{basedir}/templates"])

@@ -19,3 +19,9 @@ kubectl create -f deployment.yaml
 ```
 curl --json '{"tool": "curloid"}' http://127.0.0.1:7000/message
 ```
+
+or
+
+```
+curl -H "Content-Type: application/json" -X POST --data '{"tool":"curloid"}' http://127.0.0.1:7000/message
+```
